@@ -1,2 +1,3 @@
-# promex
-Prometheus client library for Elixir
+# Promex
+
+Promex is a Prometheus client library for Elixir.
