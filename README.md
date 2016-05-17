@@ -30,7 +30,7 @@ broken down by metric type below.
 
 To increment a counter, use:
 
-    Promex.Counter.incremen("foo")
+    Promex.Counter.increment("foo")
 
 By default this will increment your counter by 1. If the counter didn't exist,
 it will be created with an initial value of 1. To increment with another amount,
