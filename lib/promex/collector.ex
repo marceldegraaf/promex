@@ -3,21 +3,24 @@ defmodule Promex.Collector do
 
   @initial_state %{}
 
-  def start_link do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
-  end
+  def start_link, do: GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
 
-  def init(:ok) do
-    {:ok, @initial_state}
-  end
+  def init(:ok), do: {:ok, @initial_state}
 
-  def metrics do
-    GenServer.call(__MODULE__, :get)
-  end
+  #
+  # Public API
+  #
+
+  def metrics, do: GenServer.call(__MODULE__, :get)
 
   def counter_increment(name, []), do: counter_increment(name, by: 1)
-  def counter_increment(name, [by: by]),
-    do: GenServer.cast(__MODULE__, {:counter, :increment, name, by: by})
+  def counter_increment(name, [by: by]) do
+    GenServer.cast(__MODULE__, {:counter, :increment, name, by: by})
+  end
+
+  #
+  # GenServer callbacks
+  #
 
   def handle_call(:get, _from, state), do: {:reply, state, state}
 
