@@ -1,0 +1,9 @@
+build:
+  image: marceldegraaf/elixir
+  commands:
+    - mix deps.get
+    - mix test
+
+cache:
+  mount:
+    - deps
