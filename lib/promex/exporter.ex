@@ -1,23 +1,38 @@
 defmodule Promex.Exporter do
-  alias Promex.Collector
+  use Plug.Router
+  require Logger
 
-  def start do
-    routes = [
-      {"/", Promex.Exporter.Handler, []}
-    ]
+  plug :match
+  plug :dispatch
 
-    dispatch = :cowboy_router.compile([{:_, routes}])
+  def init(opts), do: opts
 
-    {:ok, _pid} = :cowboy.start_http(:http, 100, [port: 8000], [env: [dispatch: dispatch]])
+  def start_link do
+    Plug.Adapters.Cowboy.http(
+      Promex.Exporter,
+      [],
+      [port: Application.get_env(:promex, :port)]
+    )
   end
 
-  def metrics do
-    Enum.map(Collector.metrics, fn(metric) -> parse(metric) end)
+  get "/metrics" do
+    conn
+    |> send_resp(200, parsed_metrics(Promex.Collector.metrics))
+    |> halt
   end
 
-  defp parse(metric) do
+  get "/favicon.ico" do
+    conn
+    |> send_resp(404, "Not Found")
+    |> halt
+  end
+
+  defp parsed_metrics(metrics) do
+    Enum.map(metrics, &parse_metric/1)
+  end
+
+  defp parse_metric(metric) do
     metric = Tuple.to_list(metric)
-
     "#{List.first(metric)} #{List.last(metric)}\n"
   end
 end

@@ -14,14 +14,16 @@ defmodule Promex.Mixfile do
 
   def application do
     [
-      applications: [:logger, :cowboy],
+      applications: [:logger, :cowboy, :plug],
       mod: {Promex, []}
     ]
   end
 
   defp deps do
     [
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:plug, "~> 1.1"},
+      {:mock, "~> 0.1.1", only: :test},
     ]
   end
 end

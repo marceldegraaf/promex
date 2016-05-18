@@ -2,6 +2,13 @@ defmodule Promex do
   use Application
 
   def start(_type, _args) do
-    Promex.Supervisor.start_link
+    import Supervisor.Spec, warn: false
+
+    children = [
+      worker(Promex.Collector, []),
+      worker(Promex.Exporter, [], name: Promex.Exporter),
+    ]
+
+    Supervisor.start_link(children, strategy: :one_for_one, name: __MODULE__)
   end
 end

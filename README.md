@@ -37,3 +37,11 @@ it will be created with an initial value of 1. To increment with another amount,
 use:
 
     Promex.Counter.increment("foo", by: 10)
+
+## Configuration
+
+Promex can be configured in `config.exs`. These are the default settings:
+
+    config :promex,
+      port: 9000
+      endpoint: "/metrics"
