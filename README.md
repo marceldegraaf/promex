@@ -1,5 +1,7 @@
 # Promex
 
+[![Build Status](https://travis-ci.org/marceldegraaf/promex.svg?branch=master)](https://travis-ci.org/marceldegraaf/promex)
+
 Promex is a Prometheus client library for Elixir. It can track arbitrary
 application metrics through a simple API, and exposes an HTTP endpoint to
 Prometheus for scraping.
