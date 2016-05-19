@@ -24,6 +24,7 @@ defmodule Promex.Mixfile do
       {:cowboy, "~> 1.0"},
       {:plug, "~> 1.1"},
       {:mock, "~> 0.1.1", only: :test},
+      {:inch_ex, "~> 0.5.0", only: :docs},
     ]
   end
 end
