@@ -7,16 +7,7 @@ defmodule Promex.Collector do
 
   def init(:ok), do: {:ok, @initial_state}
 
-  #
-  # Public API
-  #
-
   def metrics, do: GenServer.call(__MODULE__, :get)
-
-  def counter_increment(name, []), do: counter_increment(name, by: 1)
-  def counter_increment(name, [by: by]) do
-    GenServer.cast(__MODULE__, {:counter, :increment, name, by: by})
-  end
 
   #
   # GenServer callbacks
@@ -27,7 +18,14 @@ defmodule Promex.Collector do
   def handle_cast({:counter, :increment, name, [by: by]}, state) do
     {
       :noreply,
-      Map.update(state, name, by, fn(value) -> value + by end)
+      Map.update(state, name, by, fn(current) -> current + by end)
+    }
+  end
+
+  def handle_cast({:gauge, :set, name, value}, state) do
+    {
+      :noreply,
+      Map.update(state, name, value, fn(current) -> value end)
     }
   end
 

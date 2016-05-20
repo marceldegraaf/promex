@@ -1,7 +1,6 @@
 defmodule Promex.Counter do
-  alias Promex.Collector
-
-  def increment(name, args \\ []) do
-    Collector.counter_increment(name, args)
+  def increment(name), do: increment(name, by: 1)
+  def increment(name, [by: by]) do
+    GenServer.cast(Promex.Collector, {:counter, :increment, name, by: by})
   end
 end

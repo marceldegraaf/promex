@@ -1,7 +1,8 @@
 # Promex
 
 [![Build Status](https://travis-ci.org/marceldegraaf/promex.svg?branch=master)](https://travis-ci.org/marceldegraaf/promex)
-[![Inline docs](http://inch-ci.org/github/marceldegraaf/promex.svg)](http://inch-ci.org/github/marceldegraaf/promex)
+[![Coverage Status](https://coveralls.io/repos/github/marceldegraaf/promex/badge.svg?branch=master)](https://coveralls.io/github/marceldegraaf/promex?branch=master)
+[![Docs](http://inch-ci.org/github/marceldegraaf/promex.svg)](http://inch-ci.org/github/marceldegraaf/promex)
 
 Promex is a Prometheus client library for Elixir. It can track arbitrary
 application metrics through a simple API, and exposes an HTTP endpoint to
