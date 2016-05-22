@@ -1,4 +1,8 @@
 defmodule Promex do
+  @moduledoc """
+  Supervisor application that runs the Collector and Exporter.
+  """
+
   use Application
 
   def start(_type, _args) do

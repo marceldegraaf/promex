@@ -22,7 +22,7 @@ defmodule Promex.Exporter do
     |> halt
   end
 
-  get "/favicon.ico" do
+  match _ do
     conn
     |> send_resp(404, "Not Found")
     |> halt
