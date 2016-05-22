@@ -27,7 +27,7 @@ particular order:
 - [ ] Implement standard/runtime collectors, as [documented here](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
 - [ ] Add support for pushing metrics to a PushGateway, e.g. for short-running
     batch processes.
-- [ ] Add gzip compression to exporter endpoint.
+- [x] Add gzip compression to exporter endpoint.
 
 ## Installation
 

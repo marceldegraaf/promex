@@ -11,11 +11,12 @@ defmodule Promex.Exporter do
     Plug.Adapters.Cowboy.http(
       Promex.Exporter,
       [],
-      [port: Application.get_env(:promex, :port)]
+      [port: Application.get_env(:promex, :port),
+       compress: true]
     )
   end
 
-  get "/metrics" do
+  get Application.get_env(:promex, :endpoint) do
     conn
     |> send_resp(200, parsed_metrics(Promex.Collector.metrics))
     |> halt
