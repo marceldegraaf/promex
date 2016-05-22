@@ -7,6 +7,7 @@ defmodule Promex.Collector do
 
   @initial_state %{}
 
+  @doc "Starts the Collector process"
   def start_link, do: GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
 
   def init(:ok), do: {:ok, @initial_state}

@@ -11,6 +11,7 @@ defmodule Promex.Exporter do
 
   def init(opts), do: opts
 
+  @doc "Starts the Exporter process."
   def start_link do
     Plug.Adapters.Cowboy.http(
       Promex.Exporter,
