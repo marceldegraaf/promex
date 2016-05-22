@@ -14,7 +14,8 @@ not use this in production.
 ## To do before 1.0 release
 
 Promex adheres to [Prometheus' client library guide](https://prometheus.io/docs/instrumenting/writing_clientlibs/)
-as much as possible. These things are still required to make that happen:
+as much as possible. These things are still required to make that happen, in no
+particular order:
 
 - [ ] Refactor code so metrics can be registered to one or more registries which
     each have their own exporter.
@@ -24,6 +25,9 @@ as much as possible. These things are still required to make that happen:
 - [ ] Add the option to supply HELP text for a metric, or generate a default
     automatically.
 - [ ] Implement standard/runtime collectors, as [documented here](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
+- [ ] Add support for pushing metrics to a PushGateway, e.g. for short-running
+    batch processes.
+- [ ] Add gzip compression to exporter endpoint.
 
 ## Installation
 
