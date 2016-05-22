@@ -1,6 +1,6 @@
 defmodule Promex.Collector do
   @moduledoc """
-  The Collector is where Promex keeps metrics state.
+  Collector is where Promex keeps metrics state.
   """
 
   use GenServer

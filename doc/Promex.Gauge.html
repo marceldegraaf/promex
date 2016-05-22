@@ -1,0 +1,390 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.11.5">
+    <title>Promex.Gauge – promex v0.0.1</title>
+    <link rel="stylesheet" href="dist/app-ddd9717ad9.css" />
+    
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body data-type="modules">
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
+
+  
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        promex
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.1
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">promex v0.0.1</small>
+        Promex.Gauge
+        
+        
+      </h1>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>Gauge keeps metrics that can go up and down.</p>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#dec/1">dec(name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="Promex.Gauge.html#decrement/1"><code class="inline">Promex.Gauge.decrement/1</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#dec/2">dec(name, opts)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="Promex.Gauge.html#decrement/2"><code class="inline">Promex.Gauge.decrement/2</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decrement/1">decrement(name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Decrement the gauge identified by <code class="inline">name</code> by 1, or initialize it with a
+value of -1</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decrement/2">decrement(name, list)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Decrement the gauge identified by <code class="inline">name</code> by a specific value</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#inc/1">inc(name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="Promex.Gauge.html#increment/1"><code class="inline">Promex.Gauge.increment/1</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#inc/2">inc(name, opts)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="Promex.Gauge.html#increment/2"><code class="inline">Promex.Gauge.increment/2</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#increment/1">increment(name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Increment the gauge identified by <code class="inline">name</code> by 1, or initialize it with a
+value of 1</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#increment/2">increment(name, list)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Increment the gauge identified by <code class="inline">name</code> by a specific value</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set/1">set(name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Set a gauge’s value</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set/2">set(name, value)</a>
+  </div>
+  
+</div>
+
+  </div>
+
+
+          
+
+          
+
+        </section>
+      
+
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="dec/1">
+  <div class="detail-header">
+    <a href="#dec/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">dec(name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="Promex.Gauge.html#decrement/1"><code class="inline">Promex.Gauge.decrement/1</code></a>.</p>
+
+  </section>
+</div>
+<div class="detail" id="dec/2">
+  <div class="detail-header">
+    <a href="#dec/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">dec(name, opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="Promex.Gauge.html#decrement/2"><code class="inline">Promex.Gauge.decrement/2</code></a>.</p>
+
+  </section>
+</div>
+<div class="detail" id="decrement/1">
+  <div class="detail-header">
+    <a href="#decrement/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">decrement(name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Decrement the gauge identified by <code class="inline">name</code> by 1, or initialize it with a
+value of -1.</p>
+<pre><code class="iex elixir">iex&gt; Promex.Gauge.decrement(&quot;test_gauge_4&quot;)
+{:ok, -1}
+iex&gt; Promex.Gauge.decrement(&quot;test_gauge_4&quot;)
+{:ok, -2}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="decrement/2">
+  <div class="detail-header">
+    <a href="#decrement/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">decrement(name, list)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Decrement the gauge identified by <code class="inline">name</code> by a specific value.</p>
+<p>By default, this will set the gauge value to <code class="inline">-1</code>.
+To set a different initial value, use the <code class="inline">by</code> option.</p>
+<pre><code class="iex elixir">iex&gt; Promex.Gauge.decrement(&quot;test_gauge_5&quot;, by: 5)
+{:ok, -5}
+iex&gt; Promex.Gauge.decrement(&quot;test_gauge_5&quot;, by: 5)
+{:ok, -10}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="inc/1">
+  <div class="detail-header">
+    <a href="#inc/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">inc(name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="Promex.Gauge.html#increment/1"><code class="inline">Promex.Gauge.increment/1</code></a>.</p>
+
+  </section>
+</div>
+<div class="detail" id="inc/2">
+  <div class="detail-header">
+    <a href="#inc/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">inc(name, opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="Promex.Gauge.html#increment/2"><code class="inline">Promex.Gauge.increment/2</code></a>.</p>
+
+  </section>
+</div>
+<div class="detail" id="increment/1">
+  <div class="detail-header">
+    <a href="#increment/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">increment(name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Increment the gauge identified by <code class="inline">name</code> by 1, or initialize it with a
+value of 1.</p>
+<pre><code class="iex elixir">iex&gt; Promex.Gauge.increment(&quot;test_gauge_2&quot;)
+{:ok, 1}
+iex&gt; Promex.Gauge.increment(&quot;test_gauge_2&quot;)
+{:ok, 2}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="increment/2">
+  <div class="detail-header">
+    <a href="#increment/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">increment(name, list)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Increment the gauge identified by <code class="inline">name</code> by a specific value.</p>
+<pre><code class="iex elixir">iex&gt; Promex.Gauge.set(&quot;test_gauge_3&quot;)
+{:ok, 1}
+iex&gt; Promex.Gauge.increment(&quot;test_gauge_3&quot;, by: 5)
+{:ok, 6}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="set/1">
+  <div class="detail-header">
+    <a href="#set/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set(name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Set a gauge’s value.</p>
+<pre><code class="iex elixir">iex&gt; Promex.Gauge.set(&quot;test_gauge_1&quot;)
+{:ok, 1}
+iex&gt; Promex.Gauge.set(&quot;test_gauge_1&quot;, 10)
+{:ok, 10}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="set/2">
+  <div class="detail-header">
+    <a href="#set/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set(name, value)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.5),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+      <button class="night-mode-toggle" />
+    </footer>
+  </div>
+</section>
+</div>
+  <script src="dist/app-918614602f.js"></script>
+  </body>
+</html>
+

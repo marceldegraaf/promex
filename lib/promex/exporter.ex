@@ -1,4 +1,8 @@
 defmodule Promex.Exporter do
+  @moduledoc """
+  Exporter exposes an HTTP endpoint for Prometheus to ingest metrics.
+  """
+
   use Plug.Router
   require Logger
 
