@@ -11,6 +11,20 @@ Prometheus for scraping.
 **Note**: this package is very much work in progress. Nothing is stable yet. Do
 not use this in production.
 
+## To do before 1.0 release
+
+Promex adheres to [Prometheus' client library guide](https://prometheus.io/docs/instrumenting/writing_clientlibs/)
+as much as possible. These things are still required to make that happen:
+
+- [ ] Refactor code so metrics can be registered to one or more registries which
+    each have their own exporter.
+- [ ] Let counters and gauges start at `0`
+- [ ] Implement the advised function names to set/change metric values of
+    different types.
+- [ ] Add the option to supply HELP text for a metric, or generate a default
+    automatically.
+- [ ] Implement standard/runtime collectors, as [documented here](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
+
 ## Installation
 
   1. Add promex to your list of dependencies in `mix.exs`:
