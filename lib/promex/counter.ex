@@ -18,9 +18,9 @@ defmodule Promex.Counter do
   defdelegate inc(name, opts), to: __MODULE__, as: :increment
 
   @doc """
-  Increment a metric identified by `name`.
+  Increments the counter identified by `name`.
 
-  By default, this will set the metric value to `1`.
+  By default, this will set the counter value to `1`.
   To set a different initial value, use the `by` option.
 
     iex> Promex.Counter.increment("test_counter_2")

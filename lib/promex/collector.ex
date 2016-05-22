@@ -20,13 +20,23 @@ defmodule Promex.Collector do
 
   def handle_call(:get, _from, state), do: {:reply, state, state}
 
-  def handle_call({:counter, :increment, name, [by: by]}, _from, state) do
-    state = Map.update(state, name, by, fn(current) -> current + by end)
+  def handle_call({:counter, :increment, name, [by: value]}, _from, state) do
+    state = Map.update(state, name, value, fn(current) -> current + value end)
     {:reply, Map.fetch(state, name), state}
   end
 
   def handle_call({:gauge, :set, name, value}, _from, state) do
     state = Map.update(state, name, value, fn(_) -> value end)
+    {:reply, Map.fetch(state, name), state}
+  end
+
+  def handle_call({:gauge, :increment, name, [by: value]}, _from, state) do
+    state = Map.update(state, name, value, fn(current) -> current + value end)
+    {:reply, Map.fetch(state, name), state}
+  end
+
+  def handle_call({:gauge, :decrement, name, [by: value]}, _from, state) do
+    state = Map.update(state, name, -value, fn(current) -> current - value end)
     {:reply, Map.fetch(state, name), state}
   end
 
