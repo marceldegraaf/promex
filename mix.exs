@@ -15,7 +15,7 @@ defmodule Promex.Mixfile do
 
   def application do
     [
-      applications: [:logger, :cowboy, :plug],
+      applications: [:logger, :cowboy, :plug, :gproc],
       mod: {Promex, []}
     ]
   end
@@ -24,6 +24,7 @@ defmodule Promex.Mixfile do
     [
       {:cowboy, "~> 1.0"},
       {:plug, "~> 1.1"},
+      {:gproc, "~> 0.5"},
 
       # Testing/development/docs dependencies
       {:mock, "~> 0.1.1", only: :test},

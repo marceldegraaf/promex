@@ -23,7 +23,7 @@ defmodule Promex.Exporter do
 
   get Application.get_env(:promex, :endpoint) do
     conn
-    |> send_resp(200, parsed_metrics(Promex.Collector.metrics))
+    |> send_resp(200, Promex.Registry.collect(:default) |> parse)
     |> halt
   end
 
@@ -33,12 +33,14 @@ defmodule Promex.Exporter do
     |> halt
   end
 
-  defp parsed_metrics(metrics) do
-    Enum.map(metrics, &parse_metric/1)
+  defp parse(metrics = %{}) do
+    IO.inspect metrics
+
+    metrics
+    |> Enum.map(&parse/1)
   end
 
-  defp parse_metric(metric) do
-    metric = Tuple.to_list(metric)
-    "#{List.first(metric)} #{List.last(metric)}\n"
+  defp parse({name, value}) do
+    name <> " " <> Kernel.inspect(value) <> "\n"
   end
 end

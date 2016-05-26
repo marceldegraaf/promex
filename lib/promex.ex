@@ -10,7 +10,8 @@ defmodule Promex do
 
     children = [
       worker(Promex.Collector, []),
-      worker(Promex.Exporter, [], name: Promex.Exporter),
+      worker(Promex.Exporter, []),
+      worker(Promex.Registry.Supervisor, []),
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: __MODULE__)

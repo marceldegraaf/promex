@@ -1,4 +1,6 @@
 defmodule Promex.Counter do
+  use Promex.Metric
+
   @moduledoc """
   Counter keeps simple, monotonous counter metrics. Counters can only ever go up.
   """

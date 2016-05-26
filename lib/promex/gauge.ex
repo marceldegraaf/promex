@@ -1,4 +1,6 @@
 defmodule Promex.Gauge do
+  use Promex.Metric
+
   @moduledoc """
   Gauge keeps metrics that can go up and down.
   """
