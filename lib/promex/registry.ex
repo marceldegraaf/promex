@@ -31,11 +31,9 @@ defmodule Promex.Registry do
   end
 
   def handle_call(:collect, _from, state) do
-    reply = state
-    |> Map.values
-    |> Enum.reduce(%{}, &reduce_metrics/2)
-
-    {:reply, reply, state}
+    {:reply,
+     state |> Map.values,
+     state}
   end
 
   def handle_call({:counter, :increment, name, [by: value]}, _from, state) do

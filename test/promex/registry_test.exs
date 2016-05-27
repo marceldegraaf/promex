@@ -8,7 +8,7 @@ defmodule Promex.RegistryTest do
 
   test "collects metrics", %{metric: metric} do
     {:reply, reply, state} = Promex.Registry.handle_call(:collect, nil, %{"foo" => metric})
-    assert reply == %{"foo" => metric.value}
+    assert reply == [metric]
     assert state == %{"foo" => metric}
   end
 

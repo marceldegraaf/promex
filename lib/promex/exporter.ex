@@ -33,12 +33,22 @@ defmodule Promex.Exporter do
     |> halt
   end
 
-  defp parse(metrics = %{}) do
-    metrics
-    |> Enum.map(&parse/1)
+  defp parse(metrics),                  do: parse(metrics, "")
+  defp parse([metric | list], result),  do: parse(list, parsed(metric) <> result)
+  defp parse([], result),               do: result
+
+  defp parsed(metric = %{name: _name, value: _value, doc: _doc}) do
+    [type(metric),
+     help(metric),
+     values(metric) <> "\n"]
+    |> Enum.join("\n")
   end
 
-  defp parse({name, value}) do
-    name <> " " <> Kernel.inspect(value) <> "\n"
-  end
+  defp type(metric), do: "TYPE #{metric.name} #{Promex.Metric.type(metric)}"
+
+  defp help(%{doc: nil}),             do: ""
+  defp help(%{name: name, doc: doc}), do: "HELP #{name} #{doc}"
+
+  defp values(%{name: name, value: value}), do: "#{name} #{inspect value}"
+
 end
