@@ -34,8 +34,6 @@ defmodule Promex.Exporter do
   end
 
   defp parse(metrics = %{}) do
-    IO.inspect metrics
-
     metrics
     |> Enum.map(&parse/1)
   end

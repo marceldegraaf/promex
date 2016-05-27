@@ -1,20 +1,48 @@
 defmodule Promex.GaugeTest do
   use ExUnit.Case
-  doctest Promex.Gauge
 
-  test "aliases increment function to inc" do
-    {:ok, value} = Promex.Gauge.inc("test_gauge_inc_alias_1")
-    assert value == 1
-
-    {:ok, value} = Promex.Gauge.inc("test_gauge_inc_alias_1", by: 3)
-    assert value == 4
+  setup do
+    Promex.Registry.register(%Promex.Gauge{name: "foo"})
   end
 
-  test "aliases decrement function to dec" do
-    {:ok, value} = Promex.Gauge.dec("test_gauge_dec_alias_1")
-    assert value == -1
+  test "set" do
+    {:ok, value} = Promex.Gauge.set("foo")
+    assert value == %Promex.Gauge{name: "foo", value: 1}
 
-    {:ok, value} = Promex.Gauge.dec("test_gauge_dec_alias_1", by: 3)
-    assert value == -4
+    {:ok, value} = Promex.Gauge.set("foo", to: 5)
+    assert value == %Promex.Gauge{name: "foo", value: 5}
   end
+
+  test "increment" do
+    {:ok, value} = Promex.Gauge.increment("foo")
+    assert value == %Promex.Gauge{name: "foo", value: 1}
+
+    {:ok, value} = Promex.Gauge.increment("foo", by: 5)
+    assert value == %Promex.Gauge{name: "foo", value: 6}
+  end
+
+  test "inc" do
+    {:ok, value} = Promex.Gauge.inc("foo")
+    assert value == %Promex.Gauge{name: "foo", value: 1}
+
+    {:ok, value} = Promex.Gauge.inc("foo", by: 5)
+    assert value == %Promex.Gauge{name: "foo", value: 6}
+  end
+
+  test "decrement" do
+    {:ok, value} = Promex.Gauge.decrement("foo")
+    assert value == %Promex.Gauge{name: "foo", value: -1}
+
+    {:ok, value} = Promex.Gauge.decrement("foo", by: 5)
+    assert value == %Promex.Gauge{name: "foo", value: -6}
+  end
+
+  test "dec" do
+    {:ok, value} = Promex.Gauge.dec("foo")
+    assert value == %Promex.Gauge{name: "foo", value: -1}
+
+    {:ok, value} = Promex.Gauge.dec("foo", by: 5)
+    assert value == %Promex.Gauge{name: "foo", value: -6}
+  end
+
 end
