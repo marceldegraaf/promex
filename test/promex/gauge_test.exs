@@ -1,5 +1,8 @@
 defmodule Promex.GaugeTest do
   use ExUnit.Case
+  import Mock
+
+  doctest Promex.Gauge
 
   setup do
     Promex.Registry.register(%Promex.Gauge{name: "foo"})
@@ -11,6 +14,13 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.set("foo", to: 5)
     assert value == %Promex.Gauge{name: "foo", value: 5}
+  end
+
+  test "set_to_current_time" do
+    with_mock Timex, [to_unix: fn(_time) -> 62167219200 end] do
+      {:ok, value} = Promex.Gauge.set_to_current_time("foo")
+      assert value == %Promex.Gauge{name: "foo", value: 62167219200}
+    end
   end
 
   test "increment" do

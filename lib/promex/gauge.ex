@@ -4,6 +4,7 @@ defmodule Promex.Gauge do
   """
 
   use Promex.Metric
+  use Timex
 
   @doc """
   Set the gauge identified by `name` to the default value of 1.
@@ -15,6 +16,13 @@ defmodule Promex.Gauge do
   """
   def set(registry \\ :default, name, [to: value]) do
     GenServer.call(Promex.Registry.name(registry), {:gauge, :set, name, value})
+  end
+
+  @doc """
+  Set the gauge to the current time (in seconds since Unix epoch).
+  """
+  def set_to_current_time(registry \\ :default, name) do
+    GenServer.call(Promex.Registry.name(registry), {:gauge, :set, name, unix_time})
   end
 
   @doc """
@@ -62,4 +70,6 @@ defmodule Promex.Gauge do
   def decrement(registry \\ :default, name, [by: value]) do
     GenServer.call(Promex.Registry.name(registry), {:gauge, :decrement, name, by: value})
   end
+
+  defp unix_time, do: Timex.Time.now |> Timex.to_unix
 end
