@@ -28,6 +28,8 @@ defmodule Promex.Mixfile do
       {:timex, "~> 2.1.0"},
 
       # Testing/development/docs dependencies
+      {:credo, "~> 0.3.10", only: [:dev, :test]},
+      {:dialyxir, "~> 0.3.3", only: [:dev, :test]},
       {:mock, "~> 0.1.1", only: :test},
       {:excoveralls, "~> 0.5", only: :test},
       {:inch_ex, "~> 0.5.0", only: :docs},
