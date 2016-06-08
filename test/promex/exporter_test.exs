@@ -4,7 +4,7 @@ defmodule Promex.ExporterTest do
   import Mock
 
   @collect [
-    %Promex.Counter{name: "foo", value: 3, doc: "this is a counter"},
+    %Promex.Counter{name: "foo", value: 3, doc: "this is a counter", labels: %{foo: "bar", baz: "bax"}},
     %Promex.Gauge{name: "bar", value: 5, doc: "this is a gauge"},
   ]
 
@@ -15,7 +15,14 @@ defmodule Promex.ExporterTest do
 
       assert conn.state == :sent
       assert conn.status == 200
-      assert conn.resp_body == "TYPE bar gauge\nHELP bar this is a gauge\nbar 5\nTYPE foo counter\nHELP foo this is a counter\nfoo 3\n"
+      assert conn.resp_body == """
+      TYPE bar gauge
+      HELP bar this is a gauge
+      bar 5
+      TYPE foo counter
+      HELP foo this is a counter
+      foo{baz="bax",foo="bar"} 3
+      """
     end
   end
 

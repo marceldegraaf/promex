@@ -21,9 +21,9 @@ particular order:
 - [ ] Implement standard/runtime collectors, as [documented here](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
 - [ ] Add support for pushing metrics to a PushGateway, e.g. for short-running
     batch processes.
-- [ ] Make it possible to add labels to a metric, and expose them in the
     exporter
 - [ ] Implement `summary` and/or `histogram` metric type
+- [x] Make it possible to add labels to a metric, and expose them in the
 - [x] Refactor code so metrics can be registered to one or more registries which
     each have their own exporter.
 - [x] Let counters and gauges start at `0`

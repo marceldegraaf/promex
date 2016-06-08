@@ -40,7 +40,7 @@ defmodule Promex.Exporter do
   defp parsed(metric = %{name: _name, value: _value, doc: _doc}) do
     [type(metric),
      help(metric),
-     values(metric) <> "\n"]
+     value(metric)]
     |> Enum.join("\n")
   end
 
@@ -49,6 +49,26 @@ defmodule Promex.Exporter do
   defp help(%{doc: nil}),             do: ""
   defp help(%{name: name, doc: doc}), do: "HELP #{name} #{doc}"
 
-  defp values(%{name: name, value: value}), do: "#{name} #{inspect value}"
+  defp value(%{name: name, value: value, labels: labels}) do
+    "#{name}" <> labels(labels) <> " " <> "#{inspect value}\n"
+  end
+
+  # Transforms a map of labels to the curly enclosed, comma separated
+  # `key="value"` format that Prometheus expects, e.g.
+  #
+  #   %{foo: "bar", baz: "bax"}
+  #
+  # is transformed to:
+  #
+  #   {foo="bar",baz="baz"}
+  #
+  defp labels(labels) when labels == %{}, do: ""
+  defp labels(labels) do
+    pairs = labels
+    |> Enum.map(fn{k, v} -> "#{k}=#{inspect v}" end)
+    |> Enum.join(",")
+
+    "{#{pairs}}"
+  end
 
 end
