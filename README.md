@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/marceldegraaf/promex.svg?branch=master)](https://travis-ci.org/marceldegraaf/promex)
 [![Coverage Status](https://coveralls.io/repos/github/marceldegraaf/promex/badge.svg?branch=master)](https://coveralls.io/github/marceldegraaf/promex?branch=master)
+[![Deps Status](https://beta.hexfaktor.org/badge/all/github/marceldegraaf/promex.svg)](https://beta.hexfaktor.org/github/marceldegraaf/promex)
 [![Docs](http://inch-ci.org/github/marceldegraaf/promex.svg)](http://inch-ci.org/github/marceldegraaf/promex)
 
 Promex is a Prometheus client library for Elixir. It can track arbitrary
