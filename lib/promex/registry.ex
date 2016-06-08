@@ -78,6 +78,4 @@ defmodule Promex.Registry do
 
   @doc "Generates a name for this Registry process"
   def name(name), do: String.to_atom("Elixir.Promex.Registry (#{name})")
-
-  defp reduce_metrics(metric, acc), do: Map.put_new(acc, metric.name, metric.value)
 end
