@@ -62,6 +62,10 @@ defmodule Promex.Registry do
   # Gauge callbacks
   #
 
+  def handle_call({:gauge, :set, _name, value}, _from, state) when not is_number(value) do
+    {:reply, {:error, "value must be a number"}, state}
+  end
+
   def handle_call({:gauge, :set, name, value}, _from, state) do
     state = Map.update(
       state,
@@ -72,6 +76,10 @@ defmodule Promex.Registry do
     {:reply, Map.fetch(state, name), state}
   end
 
+  def handle_call({:gauge, :increment, _name, [by: value]}, _from, state) when not is_number(value) do
+    {:reply, {:error, "increment must be a number"}, state}
+  end
+
   def handle_call({:gauge, :increment, name, [by: value]}, _from, state) do
     state = Map.update(
       state,
@@ -80,6 +88,10 @@ defmodule Promex.Registry do
       fn(current) -> %Promex.Gauge{current | value: current.value + value} end)
 
     {:reply, Map.fetch(state, name), state}
+  end
+
+  def handle_call({:gauge, :decrement, _name, [by: value]}, _from, state) when not is_number(value) do
+    {:reply, {:error, "decrement must be a number"}, state}
   end
 
   def handle_call({:gauge, :decrement, name, [by: value]}, _from, state) do

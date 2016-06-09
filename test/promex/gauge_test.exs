@@ -14,6 +14,9 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.set("foo", to: 5)
     assert value == %Promex.Gauge{name: "foo", value: 5}
+
+    {:error, msg} = Promex.Gauge.set("foo", to: "A")
+    assert msg == "value must be a number"
   end
 
   test "set_to_current_time" do
@@ -29,6 +32,9 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.increment("foo", by: 5)
     assert value == %Promex.Gauge{name: "foo", value: 6}
+
+    {:error, msg} = Promex.Gauge.increment("foo", by: "A")
+    assert msg == "increment must be a number"
   end
 
   test "inc" do
@@ -37,6 +43,9 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.inc("foo", by: 5)
     assert value == %Promex.Gauge{name: "foo", value: 6}
+
+    {:error, msg} = Promex.Gauge.increment("foo", by: "A")
+    assert msg == "increment must be a number"
   end
 
   test "decrement" do
@@ -45,6 +54,9 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.decrement("foo", by: 5)
     assert value == %Promex.Gauge{name: "foo", value: -6}
+
+    {:error, msg} = Promex.Gauge.decrement("foo", by: "A")
+    assert msg == "decrement must be a number"
   end
 
   test "dec" do
@@ -53,6 +65,9 @@ defmodule Promex.GaugeTest do
 
     {:ok, value} = Promex.Gauge.dec("foo", by: 5)
     assert value == %Promex.Gauge{name: "foo", value: -6}
+
+    {:error, msg} = Promex.Gauge.dec("foo", by: "A")
+    assert msg == "decrement must be a number"
   end
 
 end
