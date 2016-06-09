@@ -14,6 +14,9 @@ defmodule Promex.CounterTest do
 
     {:error, msg} = Promex.Counter.increment("foo", by: -1)
     assert msg == "increment must be a non-negative number"
+
+    {:error, msg} = Promex.Counter.increment("foo", by: "A")
+    assert msg == "increment must be a number"
   end
 
   test "inc" do

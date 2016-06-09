@@ -40,6 +40,10 @@ defmodule Promex.Registry do
   # Counter callbacks
   #
 
+  def handle_call({:counter, :increment, _name, [by: value]}, _from, state) when not is_number(value) do
+    {:reply, {:error, "increment must be a number"}, state}
+  end
+
   def handle_call({:counter, :increment, _name, [by: value]}, _from, state) when value < 0 do
     {:reply, {:error, "increment must be a non-negative number"}, state}
   end
