@@ -18,6 +18,16 @@ Promex adheres to [Prometheus' client library guide](https://prometheus.io/docs/
 as much as possible. These things are still required to make that happen, in no
 particular order:
 
+- [ ] Allow having metrics with the same name but different labels. E.g.
+    `requests{status="200"}` and `requests{status="404"}` should be exported
+    like:
+
+    ```
+    # HELP requests The total number of HTTP requests.
+    # TYPE requests counter
+    requests{status="200"} <value> <timestamp>
+    requests{status="404"} <value> <timestamp>
+    ```
 - [ ] Implement standard/runtime collectors, as [documented here](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
 - [ ] Add support for pushing metrics to a PushGateway, e.g. for short-running
     batch processes.

@@ -36,7 +36,15 @@ defmodule Promex.Registry do
      state}
   end
 
-  def handle_call({:counter, :increment, name, [by: value]}, _from, state) do
+  #
+  # Counter callbacks
+  #
+
+  def handle_call({:counter, :increment, _name, [by: value]}, _from, state) when value < 0 do
+    {:reply, {:error, "increment must be a non-negative number"}, state}
+  end
+
+  def handle_call({:counter, :increment, name, [by: value]}, _from, state) when value > 0 do
     state = Map.update(
       state,
       name,
@@ -45,6 +53,10 @@ defmodule Promex.Registry do
 
     {:reply, Map.fetch(state, name), state}
   end
+
+  #
+  # Gauge callbacks
+  #
 
   def handle_call({:gauge, :set, name, value}, _from, state) do
     state = Map.update(
