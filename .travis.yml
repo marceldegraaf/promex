@@ -9,6 +9,9 @@ otp_release:
 env:
   - MIX_ENV=test
 
+before_script:
+  - mix local.rebar --force
+
 script: mix coveralls.travis
 
 after_script:
