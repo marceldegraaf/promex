@@ -49,7 +49,6 @@ defmodule Promex.Registry do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
-          _ -> {:reply, {:error, "an error occurred"}, state}
     end
   end
 
@@ -71,7 +70,6 @@ defmodule Promex.Registry do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
-          _ -> {:reply, {:error, "an error occurred"}, state}
     end
   end
 
@@ -81,7 +79,6 @@ defmodule Promex.Registry do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
-          _ -> {:reply, {:error, "an error occurred"}, state}
     end
   end
 
@@ -95,7 +92,6 @@ defmodule Promex.Registry do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
-          _ -> {:reply, {:error, "an error occurred"}, state}
     end
   end
 

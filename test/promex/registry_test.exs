@@ -17,8 +17,26 @@ defmodule Promex.RegistryTest do
     assert state == %{"foo" => metric}
   end
 
-  test "can not increment a metric that is not registered" do
+  test "can not increment a counter that is not registered" do
     {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 10, labels: %{}]}, nil, %{})
+    assert reply == {:error, "metric 'foo' is not registered"}
+    assert state == %{}
+  end
+
+  test "can not set a gauge that is not registered" do
+    {:reply, reply, state} = Promex.Registry.handle_call({:gauge, :set, "foo", [to: 10, labels: %{}]}, nil, %{})
+    assert reply == {:error, "metric 'foo' is not registered"}
+    assert state == %{}
+  end
+
+  test "can not increment a gauge that is not registered" do
+    {:reply, reply, state} = Promex.Registry.handle_call({:gauge, :increment, "foo", [by: 10, labels: %{}]}, nil, %{})
+    assert reply == {:error, "metric 'foo' is not registered"}
+    assert state == %{}
+  end
+
+  test "can not decrement a gauge that is not registered" do
+    {:reply, reply, state} = Promex.Registry.handle_call({:gauge, :decrement, "foo", [by: 10, labels: %{}]}, nil, %{})
     assert reply == {:error, "metric 'foo' is not registered"}
     assert state == %{}
   end

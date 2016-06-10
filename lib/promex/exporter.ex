@@ -50,7 +50,9 @@ defmodule Promex.Exporter do
   defp help(%{name: name, doc: doc}), do: "HELP #{name} #{doc}"
 
   defp value(metric) do
-    "#{metric.name}" <> labels(metric.labels) <> " " <> "#{inspect metric.values}\n"
+    for {labels, value} <- metric.values do
+      "#{metric.name}" <> labels(labels) <> " " <> "#{inspect value}\n"
+    end
   end
 
   # Transforms a map of labels to the curly enclosed, comma separated
