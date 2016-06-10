@@ -12,18 +12,21 @@ defmodule Promex.Gauge do
   def set(name), do: set(name, [to: 1])
 
   @doc """
-  Set the gauge identified by `name` to the value `value`.
+  Set the gauge identified by `name` to the value `value` without labels.
   """
-  def set(registry \\ :default, name, [to: value]) do
-    GenServer.call(Promex.Registry.name(registry), {:gauge, :set, name, value})
+  def set(name, [to: value]), do: set(name, [to: value, labels: %{}])
+
+  @doc """
+  Set the gauge identified by `name` to the value `value` with labels `labels`.
+  """
+  def set(registry \\ :default, name, [to: value, labels: labels]) do
+    GenServer.call(Promex.Registry.name(registry), {:gauge, :set, name, [to: value, labels: labels]})
   end
 
   @doc """
-  Set the gauge to the current time (in seconds since Unix epoch).
+  Set the gauge to the current time (in seconds since Unix epoch) with no labels.
   """
-  def set_to_current_time(registry \\ :default, name) do
-    GenServer.call(Promex.Registry.name(registry), {:gauge, :set, name, unix_time})
-  end
+  def set_to_current_time(name), do: set(name, to: unix_time)
 
   @doc """
   Alias for `increment/1`
@@ -42,10 +45,15 @@ defmodule Promex.Gauge do
   def increment(name), do: increment(name, by: 1)
 
   @doc """
-  Increment the gauge identified by `name` by a specific value.
+  Increment the gauge identified by `name` by a specific value with no labels.
   """
-  def increment(registry \\ :default, name, [by: value]) do
-    GenServer.call(Promex.Registry.name(registry), {:gauge, :increment, name, by: value})
+  def increment(name, [by: value]), do: increment(name, [by: value, labels: %{}])
+
+  @doc """
+  Increment the gauge identified by `name` by a specific value with labels `labels`.
+  """
+  def increment(registry \\ :default, name, [by: value, labels: labels]) do
+    GenServer.call(Promex.Registry.name(registry), {:gauge, :increment, name, by: value, labels: labels})
   end
 
   @doc """
@@ -60,15 +68,21 @@ defmodule Promex.Gauge do
 
   @doc """
   Decrement the gauge identified by `name` by 1, or initialize it with a
-  value of -1.
+  value of -1 with no labels.
   """
-  def decrement(name), do: decrement(name, by: 1)
+  def decrement(name), do: decrement(name, by: 1, labels: %{})
+
+  @doc """
+  Decrement the gauge identified by `name` by `value`, or initialize it with a
+  value of -`value` with no labels.
+  """
+  def decrement(name, [by: value]), do: decrement(name, by: value, labels: %{})
 
   @doc """
   Decrement the gauge identified by `name` by a specific value.
   """
-  def decrement(registry \\ :default, name, [by: value]) do
-    GenServer.call(Promex.Registry.name(registry), {:gauge, :decrement, name, by: value})
+  def decrement(registry \\ :default, name, [by: value, labels: labels]) do
+    GenServer.call(Promex.Registry.name(registry), {:gauge, :decrement, name, by: value, labels: labels})
   end
 
   defp unix_time, do: Timex.Time.now |> Timex.to_unix

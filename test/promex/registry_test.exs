@@ -2,7 +2,7 @@ defmodule Promex.RegistryTest do
   use ExUnit.Case
 
   setup do
-    metric = %Promex.Counter{name: "foo", doc: "this is the help text", value: 0}
+    metric = %Promex.Counter{name: "foo", doc: "this is the help text", values: %{%{} => 0}}
     {:ok, metric: metric}
   end
 
@@ -17,28 +17,22 @@ defmodule Promex.RegistryTest do
     assert state == %{"foo" => metric}
   end
 
-  test "creates a new counter with initial value 1" do
-    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 1]}, nil, %{})
-    assert reply == {:ok, %Promex.Counter{name: "foo", value: 1}}
-    assert state == %{"foo" => %Promex.Counter{name: "foo", value: 1}}
-  end
-
-  test "creates a new counter with initial value 10" do
-    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 10]}, nil, %{})
-    assert reply == {:ok, %Promex.Counter{name: "foo", value: 10}}
-    assert state == %{"foo" => %Promex.Counter{name: "foo", value: 10}}
+  test "can not increment a metric that is not registered" do
+    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 10, labels: %{}]}, nil, %{})
+    assert reply == {:error, "metric 'foo' is not registered"}
+    assert state == %{}
   end
 
   test "increments an existing counter by 1", %{metric: metric} do
-    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 1]}, nil, %{"foo" => metric})
-    assert reply == {:ok, %{metric | value: 1}}
-    assert state == %{"foo" => %{metric | value: 1}}
+    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 1, labels: %{}]}, nil, %{"foo" => metric})
+    assert reply == {:ok, %{metric | values: %{%{} => 1}}}
+    assert state == %{"foo" => %{metric | values: %{%{} => 1}}}
   end
 
   test "increments an existing counter by 10", %{metric: metric} do
-    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 10]}, nil, %{"foo" => metric})
-    assert reply == {:ok, %{metric | value: 10}}
-    assert state == %{"foo" => %{metric | value: 10}}
+    {:reply, reply, state} = Promex.Registry.handle_call({:counter, :increment, "foo", [by: 10, labels: %{}]}, nil, %{"foo" => metric})
+    assert reply == {:ok, %{metric | values: %{%{} => 10}}}
+    assert state == %{"foo" => %{metric | values: %{%{} => 10}}}
   end
 
 end

@@ -20,90 +20,129 @@ defmodule Promex.Registry do
   def register(registry \\ :default, metric), do: GenServer.cast(name(registry), {:register, metric})
 
   #
-  # GenServer callbacks
+  # Registry callbacks
   #
 
   def handle_cast({:register, metric}, state) do
-    state = state
-    |> Map.put(metric.name, metric)
-
-    {:noreply, state}
+    {:noreply, Map.put(state, metric.name, metric)}
   end
 
   def handle_call(:collect, _from, state) do
-    {:reply,
-     state |> Map.values,
-     state}
+    {:reply, Map.values(state), state}
   end
 
   #
   # Counter callbacks
   #
 
-  def handle_call({:counter, :increment, _name, [by: value]}, _from, state) when not is_number(value) do
+  def handle_call({:counter, :increment, _name, [by: value, labels: _labels]}, _from, state) when not is_number(value) do
     {:reply, {:error, "increment must be a number"}, state}
   end
 
-  def handle_call({:counter, :increment, _name, [by: value]}, _from, state) when value < 0 do
+  def handle_call({:counter, :increment, _name, [by: value, labels: _labels]}, _from, state) when value < 0 do
     {:reply, {:error, "increment must be a non-negative number"}, state}
   end
 
-  def handle_call({:counter, :increment, name, [by: value]}, _from, state) when value > 0 do
-    state = Map.update(
-      state,
-      name,
-      %Promex.Counter{name: name, value: value},
-      fn(current) -> %Promex.Counter{current | value: current.value + value} end)
-
-    {:reply, Map.fetch(state, name), state}
+  def handle_call({:counter, :increment, name, [by: value, labels: labels]}, _from, state) when value > 0 do
+    with true         <- Map.has_key?(state, name),
+         {:ok, state} <- increment_counter(name, labels, value, state) do
+      {:reply, Map.fetch(state, name), state}
+    else
+      false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
+          _ -> {:reply, {:error, "an error occurred"}, state}
+    end
   end
 
   #
   # Gauge callbacks
   #
 
-  def handle_call({:gauge, :set, _name, value}, _from, state) when not is_number(value) do
+  def handle_call({:gauge, :set, _name, [to: value, labels: _labels]}, _from, state) when not is_number(value) do
     {:reply, {:error, "value must be a number"}, state}
   end
 
-  def handle_call({:gauge, :set, name, value}, _from, state) do
-    state = Map.update(
-      state,
-      name,
-      %Promex.Gauge{name: name, value: value},
-      fn(current) -> %Promex.Gauge{current | value: value} end)
-
-    {:reply, Map.fetch(state, name), state}
-  end
-
-  def handle_call({:gauge, :increment, _name, [by: value]}, _from, state) when not is_number(value) do
+  def handle_call({:gauge, :increment, _name, [by: value, labels: _labels]}, _from, state) when not is_number(value) do
     {:reply, {:error, "increment must be a number"}, state}
   end
 
-  def handle_call({:gauge, :increment, name, [by: value]}, _from, state) do
-    state = Map.update(
-      state,
-      name,
-      %Promex.Gauge{name: name, value: value},
-      fn(current) -> %Promex.Gauge{current | value: current.value + value} end)
-
-    {:reply, Map.fetch(state, name), state}
+  def handle_call({:gauge, :set, name, [to: value, labels: labels]}, _from, state) do
+    with true         <- Map.has_key?(state, name),
+         {:ok, state} <- set_gauge(name, labels, value, state) do
+      {:reply, Map.fetch(state, name), state}
+    else
+      false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
+          _ -> {:reply, {:error, "an error occurred"}, state}
+    end
   end
 
-  def handle_call({:gauge, :decrement, _name, [by: value]}, _from, state) when not is_number(value) do
+  def handle_call({:gauge, :increment, name, [by: value, labels: labels]}, _from, state) do
+    with true         <- Map.has_key?(state, name),
+         {:ok, state} <- increment_gauge(name, labels, value, state) do
+      {:reply, Map.fetch(state, name), state}
+    else
+      false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
+          _ -> {:reply, {:error, "an error occurred"}, state}
+    end
+  end
+
+  def handle_call({:gauge, :decrement, _name, [by: value, labels: _labels]}, _from, state) when not is_number(value) do
     {:reply, {:error, "decrement must be a number"}, state}
   end
 
-  def handle_call({:gauge, :decrement, name, [by: value]}, _from, state) do
-    state = Map.update(
-      state,
-      name,
-      %Promex.Gauge{name: name, value: -value},
-      fn(current) -> %Promex.Gauge{current | value: current.value - value} end)
-
-    {:reply, Map.fetch(state, name), state}
+  def handle_call({:gauge, :decrement, name, [by: value, labels: labels]}, _from, state) do
+    with true         <- Map.has_key?(state, name),
+         {:ok, state} <- decrement_gauge(name, labels, value, state) do
+      {:reply, Map.fetch(state, name), state}
+    else
+      false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
+          _ -> {:reply, {:error, "an error occurred"}, state}
+    end
   end
 
   @doc "Generates a name for this Registry process"
   def name(name), do: String.to_atom("Elixir.Promex.Registry (#{name})")
+
+  defp increment_counter(name, labels, value, state) do
+    state = Kernel.update_in(
+      state[name].values,
+      fn(x) ->
+        Map.update(x, labels, value, &(&1 + value))
+      end
+    )
+
+    {:ok, state}
+  end
+
+  defp set_gauge(name, labels, value, state) do
+    state = Kernel.update_in(
+      state[name].values,
+      fn(x) ->
+        Map.update(x, labels, value, fn(_) -> value end)
+      end
+    )
+
+    {:ok, state}
+  end
+
+  defp increment_gauge(name, labels, value, state) do
+    state = Kernel.update_in(
+      state[name].values,
+      fn(x) ->
+        Map.update(x, labels, value, &(&1 + value))
+      end
+    )
+
+    {:ok, state}
+  end
+
+  defp decrement_gauge(name, labels, value, state) do
+    state = Kernel.update_in(
+      state[name].values,
+      fn(x) ->
+        Map.update(x, labels, -value, &(&1 - value))
+      end
+    )
+
+    {:ok, state}
+  end
 end

@@ -4,8 +4,12 @@ defmodule Promex.ExporterTest do
   import Mock
 
   @collect [
-    %Promex.Counter{name: "foo", value: 3, doc: "this is a counter", labels: %{foo: "bar", baz: "bax"}},
-    %Promex.Gauge{name: "bar", value: 5, doc: "this is a gauge"},
+    %Promex.Counter{name: "foo", doc: "this is a counter", values: %{
+        %{} => 10,
+        %{foo: "bar"} => 15
+      }
+    },
+    %Promex.Gauge{name: "bar", doc: "this is a gauge"},
   ]
 
   test "returns parsed metrics" do
