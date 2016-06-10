@@ -37,7 +37,7 @@ defmodule Promex.Exporter do
   defp parse([metric | list], result),  do: parse(list, parsed(metric) <> result)
   defp parse([], result),               do: result
 
-  defp parsed(metric = %{name: _name, value: _value, doc: _doc}) do
+  defp parsed(metric = %{name: _name, values: _values, doc: _doc}) do
     [type(metric),
      help(metric),
      value(metric)]
@@ -49,8 +49,10 @@ defmodule Promex.Exporter do
   defp help(%{doc: nil}),             do: ""
   defp help(%{name: name, doc: doc}), do: "HELP #{name} #{doc}"
 
-  defp value(%{name: name, value: value, labels: labels}) do
-    "#{name}" <> labels(labels) <> " " <> "#{inspect value}\n"
+  defp value(metric) do
+    for {labels, value} <- metric.values do
+      "#{metric.name}" <> labels(labels) <> " " <> "#{inspect value}\n"
+    end
   end
 
   # Transforms a map of labels to the curly enclosed, comma separated
