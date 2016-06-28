@@ -44,8 +44,10 @@ defmodule Promex.Registry do
   end
 
   def handle_call({:counter, :increment, name, [by: value, labels: labels]}, _from, state) when value > 0 do
-    with true         <- Map.has_key?(state, name),
-         {:ok, state} <- increment_counter(name, labels, value, state) do
+    with \
+      true         <- Map.has_key?(state, name),
+      {:ok, state} <- increment_counter(name, labels, value, state)
+    do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
@@ -65,8 +67,10 @@ defmodule Promex.Registry do
   end
 
   def handle_call({:gauge, :set, name, [to: value, labels: labels]}, _from, state) do
-    with true         <- Map.has_key?(state, name),
-         {:ok, state} <- set_gauge(name, labels, value, state) do
+    with \
+      true         <- Map.has_key?(state, name),
+      {:ok, state} <- set_gauge(name, labels, value, state)
+    do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
@@ -74,8 +78,10 @@ defmodule Promex.Registry do
   end
 
   def handle_call({:gauge, :increment, name, [by: value, labels: labels]}, _from, state) do
-    with true         <- Map.has_key?(state, name),
-         {:ok, state} <- increment_gauge(name, labels, value, state) do
+    with \
+      true         <- Map.has_key?(state, name),
+      {:ok, state} <- increment_gauge(name, labels, value, state)
+    do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
@@ -87,8 +93,10 @@ defmodule Promex.Registry do
   end
 
   def handle_call({:gauge, :decrement, name, [by: value, labels: labels]}, _from, state) do
-    with true         <- Map.has_key?(state, name),
-         {:ok, state} <- decrement_gauge(name, labels, value, state) do
+    with \
+      true         <- Map.has_key?(state, name),
+      {:ok, state} <- decrement_gauge(name, labels, value, state)
+    do
       {:reply, Map.fetch(state, name), state}
     else
       false -> {:reply, {:error, "metric '#{name}' is not registered"}, state}
